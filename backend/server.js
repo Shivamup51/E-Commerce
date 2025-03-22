@@ -29,7 +29,10 @@ app.get("/", (req, res) => {
 	});
 });
 
-// Fix CORS for production
+// Add cookie parser with proper settings
+app.use(cookieParser());
+
+// CORS configuration should come before routes
 app.use(cors({
 	origin: [process.env.CLIENT_URL, 'https://e-commerce-frontend-one-sepia.vercel.app'],
 	credentials: true,
@@ -38,7 +41,6 @@ app.use(cors({
 }));
 
 app.use(express.json({ limit: "10mb" }));
-app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
