@@ -17,13 +17,21 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Add a simple "Hello World" endpoint
+app.get("/", (req, res) => {
+	res.json({ 
+		message: "Hello World! Vercel deployment successful.",
+		status: "ok",
+		timestamp: new Date().toISOString()
+	});
+});
+
 app.use(cors({
 	origin: process.env.CLIENT_URL,
 	credentials: true,
+	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+	allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
-
-
 
 app.use(express.json({ limit: "10mb" })); // allows you to parse the body of the request
 app.use(cookieParser());
@@ -34,8 +42,6 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/analytics", analyticsRoutes);
-
-
 
 app.listen(PORT, () => {
 	console.log("Server is running on http://localhost:" + PORT);
