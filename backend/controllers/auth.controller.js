@@ -125,9 +125,10 @@ export const refreshToken = async (req, res) => {
 
 		res.cookie("accessToken", accessToken, {
 			httpOnly: true,
-			secure: process.env.NODE_ENV === "production",
-			sameSite: "strict",
+			secure: true, // Always use secure for production
+			sameSite: "none", // Critical for cross-site requests
 			maxAge: 15 * 60 * 1000,
+			path: "/", // Ensure cookies are available for all paths
 		});
 
 		res.json({ message: "Token refreshed successfully" });

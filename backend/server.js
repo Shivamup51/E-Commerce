@@ -29,9 +29,6 @@ app.get("/", (req, res) => {
 	});
 });
 
-// Add cookie parser with proper settings
-app.use(cookieParser());
-
 // CORS configuration should come before routes
 app.use(cors({
 	origin: [process.env.CLIENT_URL, 'https://e-commerce-frontend-one-sepia.vercel.app'],
@@ -40,8 +37,13 @@ app.use(cors({
 	allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+// Add cookie parser with proper settings
+app.use(cookieParser());
+
+// Parse JSON bodies
 app.use(express.json({ limit: "10mb" }));
 
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
