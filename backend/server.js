@@ -14,6 +14,9 @@ import { connectDB } from "./lib/db.js";
 
 dotenv.config();
 
+// Connect to database first
+connectDB();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -26,14 +29,15 @@ app.get("/", (req, res) => {
 	});
 });
 
+// Fix CORS for production
 app.use(cors({
-	origin: process.env.CLIENT_URL,
+	origin: [process.env.CLIENT_URL, 'https://e-commerce-frontend-one-sepia.vercel.app'],
 	credentials: true,
 	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 	allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.use(express.json({ limit: "10mb" })); // allows you to parse the body of the request
+app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
@@ -43,7 +47,12 @@ app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
-app.listen(PORT, () => {
-	console.log("Server is running on http://localhost:" + PORT);
-	connectDB();
-});
+// For local development only
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log("Server is running on http://localhost:" + PORT);
+  });
+}
+
+// Export for Vercel serverless functions
+export default app;
