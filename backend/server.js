@@ -44,12 +44,12 @@ app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
 
 // API routes
-app.use("/api/auth", authRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/cart", cartRoutes);
-app.use("/api/coupons", couponRoutes);
-app.use("/api/payments", paymentRoutes);
-app.use("/api/analytics", analyticsRoutes);
+app.use("/auth", authRoutes);
+app.use("/products", productRoutes);
+app.use("/cart", cartRoutes);
+app.use("/coupons", couponRoutes);
+app.use("/payments", paymentRoutes);
+app.use("/analytics", analyticsRoutes);
 
 // For local development only
 if (process.env.NODE_ENV !== 'production') {
