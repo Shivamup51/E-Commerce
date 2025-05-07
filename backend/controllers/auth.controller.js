@@ -124,11 +124,11 @@ export const refreshToken = async (req, res) => {
 		const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 
 		res.cookie("accessToken", accessToken, {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === "production" || true,	 // Always use secure for production
-			sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Critical for cross-site requests
-			maxAge: 15 * 60 * 1000,
-			path: "/", // Ensure cookies are available for all paths
+			maxAge: 7 * 24 * 60 * 60 * 1000, // MS
+			httpOnly: true, // prevent XSS attacks cross-site scripting attacks
+			secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+			sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // 'None' for cross-site, 'Lax' for development
+			path: "/",
 		});
 
 		res.json({ message: "Token refreshed successfully" });
