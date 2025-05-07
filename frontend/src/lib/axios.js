@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-	baseURL: import.meta.env.VITE_API_URL || "https://e-commerce-backend-tau-ten.vercel.app/api",
+	baseURL: import.meta.env.VITE_API_URL || "https://e-commerce-backend-tau-ten.vercel.app",
 	withCredentials: true, // Critical for sending cookies
 	headers: {
 		"Content-Type": "application/json",
@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use(
 			
 			try {
 				// Try to refresh the token
-				await axiosInstance.post("/auth/refresh-token");
+				await axiosInstance.post("/api/auth/refresh-token");
 				// Retry the original request
 				return axiosInstance(originalRequest);
 			} catch (refreshError) {

@@ -16,7 +16,7 @@ export const useUserStore = create((set, get) => ({
 		}
 
 		try {
-			const res = await axios.post("/auth/signup", { name, email, password });
+			const res = await axios.post("/api/auth/signup", { name, email, password });
 			set({ user: res.data, loading: false });
 		} catch (error) {
 			set({ loading: false });
@@ -28,7 +28,7 @@ export const useUserStore = create((set, get) => ({
 		set({ loading: true });
 
 		try {
-			const res = await axios.post("/auth/login", { email, password });
+			const res = await axios.post("/api/auth/login", { email, password });
 			set({ user: res.data, loading: false });
 		} catch (error) {
 			set({ loading: false });
@@ -38,7 +38,7 @@ export const useUserStore = create((set, get) => ({
 
 	logout: async () => {
 		try {
-			await axios.post("/auth/logout");
+			await axios.post("/api/auth/logout");
 			set({ user: null });
 		} catch (error) {
 			toast.error(error.response?.data?.message || "An error occurred during logout");
@@ -48,7 +48,7 @@ export const useUserStore = create((set, get) => ({
 	checkAuth: async () => {
 		set({ checkingAuth: true });
 		try {
-			const response = await axios.get("/auth/profile");
+			const response = await axios.get("/api/auth/profile");
 			set({ user: response.data, checkingAuth: false });
 		} catch (error) {
 			set({ checkingAuth: false, user: null });
@@ -61,7 +61,7 @@ export const useUserStore = create((set, get) => ({
 
 		set({ checkingAuth: true });
 		try {
-			await axios.post("/auth/refresh-token");
+			await axios.post("/api/auth/refresh-token");
 			set({ checkingAuth: false });
 		} catch (error) {
 			set({ user: null, checkingAuth: false });
