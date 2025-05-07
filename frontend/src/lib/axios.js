@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use(
 			
 			try {
 				// Try to refresh the token
-				await axiosInstance.post("/api/auth/refresh-token");
+				await axiosInstance.post("/auth/refresh-token");
 				// Retry the original request
 				return axiosInstance(originalRequest);
 			} catch (refreshError) {
